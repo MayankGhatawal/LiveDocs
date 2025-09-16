@@ -1,4 +1,5 @@
 import React from "react";
+import { Editor } from "./editor";
 
 interface DocumentPageProps {
   params: {
@@ -14,8 +15,8 @@ const DocumentIdPage = ({ params }: DocumentPageProps) => {
   }
 
   return (
-    <div>
-      Document ID: {documentId}
+    <div className="min-h-screen bg-[#FAFBFD]">
+      <Editor />
     </div>
   );
 };
