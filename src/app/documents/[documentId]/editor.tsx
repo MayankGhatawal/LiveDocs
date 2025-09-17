@@ -4,12 +4,13 @@ import { useEditorStore } from "@/store/use-editor-store";
 import Image from "@tiptap/extension-image";
 import { TaskList } from "@tiptap/extension-list";
 import { TaskItem } from "@tiptap/extension-list/task-item";
-import Text from '@tiptap/extension-text'
-import { FontFamily, TextStyle } from '@tiptap/extension-text-style'
+import Text from "@tiptap/extension-text";
+import { FontFamily, TextStyle } from "@tiptap/extension-text-style";
 import { TableKit } from "@tiptap/extension-table";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
+import Highlight from "@tiptap/extension-highlight";
 
 export const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -49,7 +50,8 @@ export const Editor = () => {
       StarterKit,
       Image,
       Text,
-      TextStyle, FontFamily,
+      TextStyle,
+      FontFamily,
       ImageResize,
       TaskList,
       TaskItem.configure({
@@ -58,6 +60,7 @@ export const Editor = () => {
       TableKit.configure({
         table: { resizable: true },
       }),
+      Highlight.configure({ multicolor: true }),
     ],
     content: `
         <table>
