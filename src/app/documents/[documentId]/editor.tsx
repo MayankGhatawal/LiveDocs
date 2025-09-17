@@ -11,6 +11,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
 import Highlight from "@tiptap/extension-highlight";
+import Link from '@tiptap/extension-link'
 
 export const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -48,6 +49,11 @@ export const Editor = () => {
     },
     extensions: [
       StarterKit,
+      Link.configure({
+        openOnClick: false,
+        autolink: true,
+        defaultProtocol: "https"
+      }),
       Image,
       Text,
       TextStyle,

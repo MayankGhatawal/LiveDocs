@@ -11,6 +11,7 @@ import {
   ChevronDownIcon,
   HighlighterIcon,
   ItalicIcon,
+  Link2Icon,
   ListTodoIcon,
   LucideIcon,
   MessageSquarePlusIcon,
@@ -28,6 +29,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface ToolbarButtonProps {
   onClick?: () => void;
@@ -41,9 +45,9 @@ const TextColorButton = () => {
   const value = editor?.getAttributes("textStyle").color || "#000";
   const onChange = (color: ColorResult) => {
     editor?.chain().focus().setColor(color.hex).run();
-  }
+  };
 
-  return(
+  return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
@@ -56,7 +60,95 @@ const TextColorButton = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
+
+const LinkButton = () => {
+  const { editor } = useEditorStore();
+  const [value, setValue] = useState("");
+  const onChange = (href: string) => {
+    editor?.chain().focus().extendMarkRange("link").setLink({ href }).run();
+    setValue("");
+  };
+
+  return (
+    <DropdownMenu
+      onOpenChange={(open) => {
+        if (open) {
+          setValue(editor?.getAttributes("link").href);
+        }
+      }}
+    >
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+          <Link2Icon className="size-4" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-2.5 flex items-center gap-x-2">
+        <Input
+          placeholder="https://example.com"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button onClick={() => onChange(value)}>Apply</Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const ImageButton = () => {
+  const { editor } = useEditorStore();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const onChange = (src: string) => {
+    editor?.chain().focus().setImage({ src }).run();
+  };
+
+  const handleImageSubmit = () => {
+    if(imageUrl){
+      onChange(imageUrl);
+      setImageUrl("");
+      setIsDialogOpen(false);
+    }
+  }
+
+  const onUpload = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = (e.target as HTMLInputElement).files?.[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        onChange(imageUrl);
+      }
+    };
+    input.click();
+  };
+
+  return (
+    <DropdownMenu
+      onOpenChange={(open) => {
+        if (open) {
+          setValue(editor?.getAttributes("link").href);
+        }
+      }}
+    >
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+          <Link2Icon className="size-4" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-2.5 flex items-center gap-x-2">
+        <Input
+          placeholder="https://example.com"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button onClick={() => onChange(value)}>Apply</Button>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const HighlightColorButton = () => {
   const { editor } = useEditorStore();
@@ -64,9 +156,9 @@ const HighlightColorButton = () => {
   const value = editor?.getAttributes("highlight").color || "#FFFFFF";
   const onChange = (color: ColorResult) => {
     editor?.chain().focus().setHighlight({ color: color.hex }).run();
-  }
+  };
 
-  return(
+  return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="h-7 min-w-7 shrink-0 flex flex-col items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
@@ -78,7 +170,7 @@ const HighlightColorButton = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
 
 const HeadingLevelButton = () => {
   const { editor } = useEditorStore();
@@ -117,7 +209,11 @@ const HeadingLevelButton = () => {
               if (value === 0) {
                 editor?.chain().focus().setParagraph().run();
               } else {
-                editor?.chain().focus().toggleHeading({ level: value as Level }).run();
+                editor
+                  ?.chain()
+                  .focus()
+                  .toggleHeading({ level: value as Level })
+                  .run();
               }
             }}
             className={cn(
@@ -135,7 +231,6 @@ const HeadingLevelButton = () => {
     </DropdownMenu>
   );
 };
-
 
 const FontFamilyButton = () => {
   const { editor } = useEditorStore();
@@ -298,7 +393,7 @@ export const Toolbar = () => {
       <TextColorButton />
       <HighlightColorButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* TODO: Link */}
+      <LinkButton />
       {/* TODO: Image */}
       {/* TODO: Align */}
       {/* TODO: Line height */}
