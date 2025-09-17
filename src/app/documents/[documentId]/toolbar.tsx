@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 import { channel } from "diagnostics_channel";
-import { BoldIcon, ItalicIcon, LucideIcon, MessageSquarePlusIcon, PrinterIcon, Redo2Icon, SpellCheck, SpellCheck2Icon, UnderlineIcon, Undo2Icon } from "lucide-react";
+import { BoldIcon, ItalicIcon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, PrinterIcon, Redo2Icon, SpellCheck, SpellCheck2Icon, UnderlineIcon, Undo2Icon } from "lucide-react";
 
 interface ToolbarButtonProps {
   onClick?: () => void;
@@ -94,6 +94,12 @@ export const Toolbar = () => {
         isActive: false,
         onClick: () => console.log("TODO: Comment"),
         
+      },
+      {
+        label: "List Todo",
+        icon: ListTodoIcon,
+        isActive: editor?.isActive("taskList"),
+        onClick: () => editor?.chain().focus().toggleTaskList().run(),        
       }
     ],
   ];
