@@ -12,6 +12,7 @@ import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
 import Highlight from "@tiptap/extension-highlight";
 import Link from '@tiptap/extension-link'
+import TextAlign from '@tiptap/extension-text-align'
 
 export const Editor = () => {
   const { setEditor } = useEditorStore();
@@ -53,6 +54,9 @@ export const Editor = () => {
         openOnClick: false,
         autolink: true,
         defaultProtocol: "https"
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
       }),
       Image,
       Text,
