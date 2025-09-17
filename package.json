@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tiptap/extension-heading": "^3.4.3",
     "@tiptap/extension-image": "^3.4.3",
