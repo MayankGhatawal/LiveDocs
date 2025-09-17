@@ -4,13 +4,81 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/store/use-editor-store";
 import { channel } from "diagnostics_channel";
-import { BoldIcon, ItalicIcon, ListTodoIcon, LucideIcon, MessageSquarePlusIcon, PrinterIcon, Redo2Icon, RemoveFormattingIcon, SpellCheck, SpellCheck2Icon, UnderlineIcon, Undo2Icon } from "lucide-react";
+import {
+  BoldIcon,
+  ChevronDownIcon,
+  ItalicIcon,
+  ListTodoIcon,
+  LucideIcon,
+  MessageSquarePlusIcon,
+  PrinterIcon,
+  Redo2Icon,
+  RemoveFormattingIcon,
+  SpellCheck,
+  SpellCheck2Icon,
+  UnderlineIcon,
+  Undo2Icon,
+} from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface ToolbarButtonProps {
   onClick?: () => void;
   isActive?: boolean;
   icon: LucideIcon;
 }
+
+const FontFamilyButton = () => {
+  const { editor } = useEditorStore();
+
+  const fonts = [
+  { label: "Arial", value: "Arial" },
+  { label: "Helvetica", value: "Helvetica" },
+  { label: "Times New Roman", value: "Times New Roman" },
+  { label: "Georgia", value: "Georgia" },
+  { label: "Verdana", value: "Verdana" },
+  { label: "Courier New", value: "Courier New" },
+  { label: "Trebuchet MS", value: "Trebuchet MS" },
+  { label: "Lucida Console", value: "Lucida Console" },
+  { label: "Palatino", value: "Palatino" },
+  { label: "Garamond", value: "Garamond" },
+  { label: "Impact", value: "Impact" },
+  { label: "Comic Sans MS", value: "Comic Sans MS" },
+];
+
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="h-7 w-[120px] shrink-0 flex items-center justify-center rounded-sm hover:bg-neutral-200/80 px-1.5 overflow-hidden text-sm">
+          <span className="truncate">
+            {editor?.getAttributes("textStyle").fontFamily || "Arial"}
+          </span>
+          <ChevronDownIcon className="ml-2 size-4 shrink-0" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="p-1 flex flex-col gap-y-1">
+        {fonts.map(({ label, value }) => (
+          <button
+            onClick={() => editor?.chain().focus().setFontFamily(value).run()}
+            key={value}
+            className={cn(
+              "flex items-center gap-x-2 px-2 py-1 rounded-sm hover:bg-neutral-200/80",
+              editor?.getAttributes("textStyle").fontFamily === value && "bg-neutral-200/80"
+            )}
+            style={{ fontFamily: value }}
+          >
+            <span className="text-sm">{label}</span>
+          </button>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 const ToolbarButton = ({
   onClick,
@@ -32,7 +100,7 @@ const ToolbarButton = ({
 
 export const Toolbar = () => {
   const { editor } = useEditorStore();
-  
+
   const sections: {
     label: string;
     icon: LucideIcon;
@@ -53,7 +121,7 @@ export const Toolbar = () => {
       {
         label: "Print",
         icon: PrinterIcon,
-        onClick: () => window.print()
+        onClick: () => window.print(),
       },
       {
         label: "Spell Check",
@@ -72,20 +140,20 @@ export const Toolbar = () => {
         label: "Bold",
         icon: BoldIcon,
         isActive: editor?.isActive("bold"),
-        onClick: () => editor?.chain().focus().toggleBold().run()
+        onClick: () => editor?.chain().focus().toggleBold().run(),
       },
       {
         label: "Italic",
         icon: ItalicIcon,
         isActive: editor?.isActive("italic"),
-        onClick: () => editor?.chain().focus().toggleItalic().run()
+        onClick: () => editor?.chain().focus().toggleItalic().run(),
       },
       {
         label: "Underline",
         icon: UnderlineIcon,
         isActive: editor?.isActive("underline"),
-        onClick: () => editor?.chain().focus().toggleUnderline().run()
-      }
+        onClick: () => editor?.chain().focus().toggleUnderline().run(),
+      },
     ],
     [
       {
@@ -93,19 +161,18 @@ export const Toolbar = () => {
         icon: MessageSquarePlusIcon,
         isActive: false,
         onClick: () => console.log("TODO: Comment"),
-        
       },
       {
         label: "List Todo",
         icon: ListTodoIcon,
         isActive: editor?.isActive("taskList"),
-        onClick: () => editor?.chain().focus().toggleTaskList().run(),        
+        onClick: () => editor?.chain().focus().toggleTaskList().run(),
       },
       {
         label: "Remove Formatting",
         icon: RemoveFormattingIcon,
-        onClick: () => editor?.chain().focus().unsetAllMarks().run(),        
-      }
+        onClick: () => editor?.chain().focus().unsetAllMarks().run(),
+      },
     ],
   ];
   return (
@@ -114,7 +181,7 @@ export const Toolbar = () => {
         <ToolbarButton key={item.label} {...item} />
       ))}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
-      {/* TODO: FONT FAMILY */}
+      <FontFamilyButton />
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />
       {/* TODO: HEADING */}
       <Separator orientation="vertical" className="h-6 bg-neutral-300" />

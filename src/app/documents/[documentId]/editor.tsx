@@ -4,6 +4,8 @@ import { useEditorStore } from "@/store/use-editor-store";
 import Image from "@tiptap/extension-image";
 import { TaskList } from "@tiptap/extension-list";
 import { TaskItem } from "@tiptap/extension-list/task-item";
+import Text from '@tiptap/extension-text'
+import { FontFamily, TextStyle } from '@tiptap/extension-text-style'
 import { TableKit } from "@tiptap/extension-table";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -46,6 +48,8 @@ export const Editor = () => {
     extensions: [
       StarterKit,
       Image,
+      Text,
+      TextStyle, FontFamily,
       ImageResize,
       TaskList,
       TaskItem.configure({
