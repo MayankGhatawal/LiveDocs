@@ -8,7 +8,7 @@ export const Navbar = () => {
         <Link href="/">
           <Image src="/livedocs.svg" alt="Logo" width={190} height={110} />
         </Link>
-        <h3 className="text-xl">Docs</h3>
+        {/* <h3 className="text-xl">Docs</h3> */}
       </div>
       <SearchInput />
       <div />
