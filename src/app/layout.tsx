@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "LiveDocs | Collaborative Online Document Editor",
   description: "Real-time collaborative document editing with LiveDocs",
+  icons: {
+    icon: "/fevicon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -17,7 +17,7 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import {
-    BoldIcon,
+  BoldIcon,
   FileIcon,
   FileJson2Icon,
   FilePenIcon,
@@ -36,8 +36,19 @@ import {
   Undo2Icon,
 } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
+import { useEditorStore } from "@/store/use-editor-store";
 
 function Navbar() {
+  const { editor } = useEditorStore();
+
+  const insertTable = ({ rows, cols }: { rows: number; cols: number }) => {
+    editor
+      ?.chain()
+      .focus()
+      .insertTable({ rows, cols, withHeaderRow: false })
+      .run();
+  };
+
   return (
     <nav className="flex items-center justify-between">
       <div className="flex gap-2 items-center">
@@ -106,12 +117,16 @@ function Navbar() {
                   Edit
                 </MenubarTrigger>
                 <MenubarContent>
-                  <MenubarItem>
+                  <MenubarItem
+                    onClick={() => editor?.chain().focus().undo().run()}
+                  >
                     <Undo2Icon className="size-4 text-black" />
                     Undo
                     <MenubarShortcut>⌘Z</MenubarShortcut>
                   </MenubarItem>
-                  <MenubarItem>
+                  <MenubarItem
+                    onClick={() => editor?.chain().focus().redo().run()}
+                  >
                     <Redo2Icon className="size-4 text-black" />
                     Redo
                     <MenubarShortcut>⌘Y</MenubarShortcut>
@@ -127,10 +142,26 @@ function Navbar() {
                   <MenubarSub>
                     <MenubarSubTrigger>Table</MenubarSubTrigger>
                     <MenubarSubContent>
-                      <MenubarItem>1x1</MenubarItem>
-                      <MenubarItem>2x2</MenubarItem>
-                      <MenubarItem>3x3</MenubarItem>
-                      <MenubarItem>4x4</MenubarItem>
+                      <MenubarItem
+                        onClick={() => insertTable({ rows: 1, cols: 1 })}
+                      >
+                        1x1
+                      </MenubarItem>
+                      <MenubarItem
+                        onClick={() => insertTable({ rows: 2, cols: 2 })}
+                      >
+                        2x2
+                      </MenubarItem>
+                      <MenubarItem
+                        onClick={() => insertTable({ rows: 3, cols: 3 })}
+                      >
+                        3x3
+                      </MenubarItem>
+                      <MenubarItem
+                        onClick={() => insertTable({ rows: 4, cols: 4 })}
+                      >
+                        4x4
+                      </MenubarItem>
                     </MenubarSubContent>
                   </MenubarSub>
                 </MenubarContent>
@@ -143,26 +174,27 @@ function Navbar() {
                 <MenubarContent>
                   <MenubarSub>
                     <MenubarSubTrigger>
-                        <TextIcon className="size-4 text-black" />
-                        Text
+                      <TextIcon className="size-4 text-black" />
+                      Text
                     </MenubarSubTrigger>
                     <MenubarSubContent>
-                        <MenubarItem>
-                            <BoldIcon className="size-4 text-black" />
-                            Bold <MenubarShortcut>⌘B</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem>
-                            <ItalicIcon className="size-4 text-black" />
-                            Italic <MenubarShortcut>⌘I</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem>
-                            <UnderlineIcon className="size-4 text-black" />
-                            Underline <MenubarShortcut>⌘U</MenubarShortcut>
-                        </MenubarItem>
-                        <MenubarItem>
-                            <StrikethroughIcon className="size-4 text-black" />
-                            Strikethrough &nbsp;&nbsp; <MenubarShortcut>⌘S</MenubarShortcut>
-                        </MenubarItem>
+                      <MenubarItem>
+                        <BoldIcon className="size-4 text-black" />
+                        Bold <MenubarShortcut>⌘B</MenubarShortcut>
+                      </MenubarItem>
+                      <MenubarItem>
+                        <ItalicIcon className="size-4 text-black" />
+                        Italic <MenubarShortcut>⌘I</MenubarShortcut>
+                      </MenubarItem>
+                      <MenubarItem>
+                        <UnderlineIcon className="size-4 text-black" />
+                        Underline <MenubarShortcut>⌘U</MenubarShortcut>
+                      </MenubarItem>
+                      <MenubarItem>
+                        <StrikethroughIcon className="size-4 text-black" />
+                        Strikethrough &nbsp;&nbsp;{" "}
+                        <MenubarShortcut>⌘S</MenubarShortcut>
+                      </MenubarItem>
                     </MenubarSubContent>
                   </MenubarSub>
                   <MenubarItem>
