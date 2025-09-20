@@ -41,8 +41,8 @@ export const DocumentsTable = ({
             <TableRow className="hover:bg-transparent border-none">
               <TableHead>Name</TableHead>
               <TableHead>&nbsp;</TableHead>
-              <TableHead>Shared</TableHead>
-              <TableHead>Created At</TableHead>
+              <TableHead className="hidden md:table-cell">Shared</TableHead>
+              <TableHead className="hidden md:table-cell">Created At</TableHead>
             </TableRow>
           </TableHeader>
           {documents.length === 0 ? (

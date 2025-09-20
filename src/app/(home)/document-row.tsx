@@ -2,7 +2,9 @@ import React from "react";
 import { Doc } from "../../../convex/_generated/dataModel";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { SiGoogledocs } from "react-icons/si";
-import { Building2Icon, CircleUserIcon } from "lucide-react";
+import { Building2Icon, CircleUserIcon, MoreVertical } from "lucide-react";
+import {format} from "date-fns"
+import DocumentMenu from "./document-menu";
 
 interface DocumentRowProps {
   document: Doc<"documents">;
@@ -23,6 +25,12 @@ function DocumentRow({ document }: DocumentRowProps) {
           <CircleUserIcon className="size-4" />
         )}
         {document.organizationId ? "Organization" : "Personal"}
+      </TableCell>
+      <TableCell className="text-muted-foreground hidden md:table-cell">
+        {format(new Date(document._creationTime), "MMM dd, yyyy")}
+      </TableCell>
+      <TableCell className="justify-end flex">
+        <DocumentMenu />
       </TableCell>
     </TableRow>
   );
