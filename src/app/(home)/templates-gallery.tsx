@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
 import {
   Carousel,
   CarouselContent,
@@ -8,20 +11,45 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import { api } from "../../../convex/_generated/api";
 
 const templates = [
   { id: "blank", label: "Blank Document", imageUrl: "/blank-document.svg" },
-  { id: "software-proposal", label: "Software Development Proposal", imageUrl: "/software-proposal.svg" },
-  { id: "project-proposal", label: "Project Proposal", imageUrl: "/project-proposal.svg" },
-  { id: "business-letter", label: "Business Letter", imageUrl: "/business-letter.svg" },
+  {
+    id: "software-proposal",
+    label: "Software Development Proposal",
+    imageUrl: "/software-proposal.svg",
+  },
+  {
+    id: "project-proposal",
+    label: "Project Proposal",
+    imageUrl: "/project-proposal.svg",
+  },
+  {
+    id: "business-letter",
+    label: "Business Letter",
+    imageUrl: "/business-letter.svg",
+  },
   { id: "resume", label: "Resume", imageUrl: "/resume.svg" },
   { id: "cover-letter", label: "Cover Letter", imageUrl: "/cover-letter.svg" },
   { id: "letter", label: "Letter", imageUrl: "/letter.svg" },
-
 ];
 
 export const TemplateGallery = () => {
-  const isCreated = false;
+  const router = useRouter();
+  const create = useMutation(api.documents.create);
+  const [isCreated, setIsCreated] = useState(false);
+
+  const onTemplateClick = (title: string, initialContent: string) => {
+    setIsCreated(true);
+    create({ title, initialContent })
+      .then((documentId) => {
+        router.push(`/documents/${documentId}`);
+      })
+      .finally(() => {
+        setIsCreated(false);
+      });
+  };
   return (
     <div className="bg-[#F1F3F4]">
       <div className="max-w-screen-xl mx-auto px-16 py-6 flex flex-col gap-y-4">
@@ -41,7 +69,7 @@ export const TemplateGallery = () => {
                 >
                   <button
                     disabled={isCreated}
-                    onClick={() => {}}
+                    onClick={() => onTemplateClick(template.label, "")}
                     style={{
                       backgroundImage: `url(${template.imageUrl})`,
                       backgroundPosition: "center",
