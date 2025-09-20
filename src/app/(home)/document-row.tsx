@@ -3,7 +3,7 @@ import { Doc } from "../../../convex/_generated/dataModel";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { SiGoogledocs } from "react-icons/si";
 import { Building2Icon, CircleUserIcon, MoreVertical } from "lucide-react";
-import {format} from "date-fns"
+import { format } from "date-fns";
 import DocumentMenu from "./document-menu";
 
 interface DocumentRowProps {
@@ -11,6 +11,9 @@ interface DocumentRowProps {
 }
 
 function DocumentRow({ document }: DocumentRowProps) {
+  const onNewTabClick = (id: string) => {
+    window.open(`/documents/${id}`, "_blank");
+  };
   return (
     <TableRow className="cursor-pointer">
       <TableCell className="w-[50px]">
@@ -30,7 +33,11 @@ function DocumentRow({ document }: DocumentRowProps) {
         {format(new Date(document._creationTime), "MMM dd, yyyy")}
       </TableCell>
       <TableCell className="justify-end flex">
-        <DocumentMenu />
+        <DocumentMenu
+          documentId={document._id}
+          title={document.title}
+          onNewTab={onNewTabClick}
+        />
       </TableCell>
     </TableRow>
   );

@@ -10,7 +10,6 @@ interface DocumentPageProps {
 }
 
 const DocumentIdPage = ({ params }: DocumentPageProps) => {
-  // ✅ use directly as string
   const documentId = params.documentId;
 
   return (
