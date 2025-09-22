@@ -1,5 +1,6 @@
 "use client";
 
+import { useLiveblocksExtension, FloatingToolbar } from "@liveblocks/react-tiptap";
 import { useEditorStore } from "@/store/use-editor-store";
 import Image from "@tiptap/extension-image";
 import { TaskList } from "@tiptap/extension-list";
@@ -18,7 +19,11 @@ import { LineHeightExtension } from "@/extensions/line-height";
 import Ruler from "./ruler";
 
 export const Editor = () => {
+  const liveblocks = useLiveblocksExtension();
   const { setEditor } = useEditorStore();
+
+  if (!liveblocks) return null;
+
   const editor = useEditor({
     immediatelyRender: false,
     onCreate({ editor }) {
@@ -53,6 +58,7 @@ export const Editor = () => {
       },
     },
     extensions: [
+      liveblocks,
       StarterKit,
       FontSizeExtension,
       LineHeightExtension.configure({
