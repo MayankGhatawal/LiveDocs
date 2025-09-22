@@ -1,6 +1,6 @@
 "use client";
 
-import { useLiveblocksExtension, FloatingToolbar } from "@liveblocks/react-tiptap";
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { useEditorStore } from "@/store/use-editor-store";
 import Image from "@tiptap/extension-image";
 import { TaskList } from "@tiptap/extension-list";
@@ -12,8 +12,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import ImageResize from "tiptap-extension-resize-image";
 import Highlight from "@tiptap/extension-highlight";
-import Link from '@tiptap/extension-link'
-import TextAlign from '@tiptap/extension-text-align'
+import Link from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
 import Ruler from "./ruler";
@@ -22,10 +22,7 @@ export const Editor = () => {
   const liveblocks = useLiveblocksExtension();
   const { setEditor } = useEditorStore();
 
-  if (!liveblocks) return null;
-
   const editor = useEditor({
-    immediatelyRender: false,
     onCreate({ editor }) {
       setEditor(editor);
     },
@@ -68,10 +65,10 @@ export const Editor = () => {
       Link.configure({
         openOnClick: false,
         autolink: true,
-        defaultProtocol: "https"
+        defaultProtocol: "https",
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ["heading", "paragraph"],
       }),
       Image,
       Text,

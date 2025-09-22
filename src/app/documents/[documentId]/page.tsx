@@ -1,8 +1,8 @@
 import React from "react";
-import { Editor } from "./editor";
-import { Toolbar } from "./toolbar";
-import Navbar from "./navbar";
 import { Room } from "./room";
+import { Toolbar } from "./toolbar";
+import { Editor } from "./editor";
+import Navbar from "./navbar";
 
 interface DocumentPageProps {
   params: {
@@ -20,8 +20,8 @@ const DocumentIdPage = ({ params }: DocumentPageProps) => {
         <Toolbar />
       </div>
       <div className="pt-[114px] print:pt-0">
-        <Room documentId={documentId}>
-        <Editor />
+        <Room>
+          <Editor />
         </Room>
       </div>
     </div>
