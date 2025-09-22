@@ -1,8 +1,8 @@
 "use client";
 
-import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { useEditorStore } from "@/store/use-editor-store";
 import Image from "@tiptap/extension-image";
+import type { AnyExtension } from "@tiptap/core";
 import { TaskList } from "@tiptap/extension-list";
 import { TaskItem } from "@tiptap/extension-list/task-item";
 import Text from "@tiptap/extension-text";
@@ -17,10 +17,14 @@ import TextAlign from "@tiptap/extension-text-align";
 import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
 import Ruler from "./ruler";
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+
+import * as Y from "yjs";
+import { useRoom } from "@liveblocks/react";
 
 export const Editor = () => {
-  const liveblocks = useLiveblocksExtension();
   const { setEditor } = useEditorStore();
+  const liveblocks = useLiveblocksExtension();
 
   const editor = useEditor({
     onCreate({ editor }) {
@@ -55,8 +59,8 @@ export const Editor = () => {
       },
     },
     extensions: [
-      liveblocks,
       StarterKit,
+      liveblocks,
       FontSizeExtension,
       LineHeightExtension.configure({
         types: ["heading", "paragraph"],
@@ -84,7 +88,7 @@ export const Editor = () => {
         table: { resizable: true },
       }),
       Highlight.configure({ multicolor: true }),
-    ],
+    ] as unknown as AnyExtension[],
     immediatelyRender: false,
   });
   return (

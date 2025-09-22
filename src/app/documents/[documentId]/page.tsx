@@ -1,17 +1,19 @@
+"use client";
+
 import React from "react";
 import { Room } from "./room";
 import { Toolbar } from "./toolbar";
 import { Editor } from "./editor";
 import Navbar from "./navbar";
+import { useParams } from "next/navigation";
 
-interface DocumentPageProps {
-  params: {
-    documentId: string;
-  };
-}
+const DocumentIdPage = () => {
+  const params = useParams();
+  const documentId = params?.documentId as string;
 
-const DocumentIdPage = ({ params }: DocumentPageProps) => {
-  const documentId = params.documentId;
+  if (!documentId) {
+    return <div>Invalid document ID</div>;
+  }
 
   return (
     <div className="min-h-screen bg-[#FAFBFD]">
