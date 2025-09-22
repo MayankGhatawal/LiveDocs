@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 import { Inter } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
@@ -25,7 +26,10 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning className={inter.className}>
         <NuqsAdapter>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <ConvexClientProvider>
+            <Toaster />
+            {children}
+          </ConvexClientProvider>
         </NuqsAdapter>
       </body>
     </html>

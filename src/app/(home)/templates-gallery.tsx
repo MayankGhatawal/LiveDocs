@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 import { api } from "../../../convex/_generated/api";
+import { toast } from "sonner";
 
 const templates = [
   { id: "blank", label: "Blank Document", imageUrl: "/blank-document.svg" },
@@ -43,7 +44,9 @@ export const TemplateGallery = () => {
   const onTemplateClick = (title: string, initialContent: string) => {
     setIsCreated(true);
     create({ title, initialContent })
+      .catch(() => toast.error("Something went wrong"))
       .then((documentId) => {
+        toast.success("Document created");
         router.push(`/documents/${documentId}`);
       })
       .finally(() => {
