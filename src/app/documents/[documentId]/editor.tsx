@@ -18,13 +18,32 @@ import { FontSizeExtension } from "@/extensions/font-size";
 import { LineHeightExtension } from "@/extensions/line-height";
 import Ruler from "./ruler";
 import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
-
-import * as Y from "yjs";
-import { useRoom } from "@liveblocks/react";
+import { Threads } from "./Threads";
 
 export const Editor = () => {
   const { setEditor } = useEditorStore();
   const liveblocks = useLiveblocksExtension();
+
+  if (!liveblocks.storage?.doc) return null;
+
+  console.log({
+    StarterKit,
+    liveblocks,
+    FontSizeExtension,
+    LineHeightExtension,
+    Link,
+    TextAlign,
+    Image,
+    Text,
+    TextStyle,
+    Color,
+    FontFamily,
+    ImageResize,
+    TaskList,
+    TaskItem,
+    TableKit,
+    Highlight,
+  });
 
   const editor = useEditor({
     onCreate({ editor }) {
@@ -88,14 +107,17 @@ export const Editor = () => {
         table: { resizable: true },
       }),
       Highlight.configure({ multicolor: true }),
-    ] as unknown as AnyExtension[],
+    ] as any,
     immediatelyRender: false,
   });
+
+  if (!editor) return null;
   return (
     <div className="size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
       <Ruler />
       <div className="min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0">
         <EditorContent editor={editor} />
+        <Threads editor={editor} />
       </div>
     </div>
   );

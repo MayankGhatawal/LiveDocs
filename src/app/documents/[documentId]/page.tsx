@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { Room } from "./room";
 import { Toolbar } from "./toolbar";
 import { Editor } from "./editor";
 import Navbar from "./navbar";
 import { useParams } from "next/navigation";
+import { Room } from "./room";
+import { RoomProvider } from "@liveblocks/react";
 
 const DocumentIdPage = () => {
   const params = useParams();
@@ -22,9 +23,9 @@ const DocumentIdPage = () => {
         <Toolbar />
       </div>
       <div className="pt-[114px] print:pt-0">
-        <Room>
-          <Editor />
-        </Room>
+        <RoomProvider id={documentId}>
+      <Editor />
+    </RoomProvider>
       </div>
     </div>
   );
