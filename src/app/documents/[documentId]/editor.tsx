@@ -1,74 +1,51 @@
-"use client";
+"use client"
 
-import { useEditorStore } from "@/store/use-editor-store";
-import Image from "@tiptap/extension-image";
-import type { AnyExtension } from "@tiptap/core";
-import { TaskList } from "@tiptap/extension-list";
-import { TaskItem } from "@tiptap/extension-list/task-item";
-import Text from "@tiptap/extension-text";
-import { Color, FontFamily, TextStyle } from "@tiptap/extension-text-style";
-import { TableKit } from "@tiptap/extension-table";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import ImageResize from "tiptap-extension-resize-image";
-import Highlight from "@tiptap/extension-image";
-import Link from "@tiptap/extension-link";
-import TextAlign from "@tiptap/extension-text-align";
-import { FontSizeExtension } from "@/extensions/font-size";
-import { LineHeightExtension } from "@/extensions/line-height";
-import Ruler from "./ruler";
-import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
-import { Threads } from "./Threads";
+import { useEditorStore } from "@/store/use-editor-store"
+import Image from "@tiptap/extension-image"
+import { TaskList } from "@tiptap/extension-list"
+import { TaskItem } from "@tiptap/extension-list/task-item"
+import Text from "@tiptap/extension-text"
+import { Color, FontFamily, TextStyle } from "@tiptap/extension-text-style"
+import { TableKit } from "@tiptap/extension-table"
+import { useEditor, EditorContent } from "@tiptap/react"
+import StarterKit from "@tiptap/starter-kit"
+import ImageResize from "tiptap-extension-resize-image"
+import Highlight from "@tiptap/extension-highlight"
+import Link from "@tiptap/extension-link"
+import TextAlign from "@tiptap/extension-text-align"
+import { FontSizeExtension } from "@/extensions/font-size"
+import { LineHeightExtension } from "@/extensions/line-height"
+import Ruler from "./ruler"
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap"
+import { Threads } from "./Threads"
 
-export const Editor = () => {
-  const { setEditor } = useEditorStore();
-  const liveblocks = useLiveblocksExtension();
-
-  if (!liveblocks.storage?.doc) return null;
-
-  console.log({
-    StarterKit,
-    liveblocks,
-    FontSizeExtension,
-    LineHeightExtension,
-    Link,
-    TextAlign,
-    Image,
-    Text,
-    TextStyle,
-    Color,
-    FontFamily,
-    ImageResize,
-    TaskList,
-    TaskItem,
-    TableKit,
-    Highlight,
-  });
-
+const Editor = () => {
+  const { setEditor } = useEditorStore()
+  const liveblocks = useLiveblocksExtension()
   const editor = useEditor({
     onCreate({ editor }) {
-      setEditor(editor);
+      setEditor(editor)
     },
     onDestroy() {
-      setEditor(null);
+      setEditor(null)
     },
     onUpdate({ editor }) {
-      setEditor(editor);
+      setEditor(editor)
     },
     onSelectionUpdate({ editor }) {
-      setEditor(editor);
+      setEditor(editor)
     },
     onTransaction({ editor }) {
-      setEditor(editor);
+      setEditor(editor)
     },
     onFocus({ editor }) {
-      setEditor(editor);
+      setEditor(editor)
     },
     onBlur({ editor }) {
-      setEditor(editor);
+      setEditor(editor)
     },
     onContentError({ editor }) {
-      setEditor(editor);
+      setEditor(editor)
     },
     editorProps: {
       attributes: {
@@ -109,9 +86,29 @@ export const Editor = () => {
       Highlight.configure({ multicolor: true }),
     ] as any,
     immediatelyRender: false,
-  });
+  })
 
-  if (!editor) return null;
+  if (!editor || !liveblocks.storage?.doc) return null
+
+  console.log({
+    StarterKit,
+    liveblocks,
+    FontSizeExtension,
+    LineHeightExtension,
+    Link,
+    TextAlign,
+    Image,
+    Text,
+    TextStyle,
+    Color,
+    FontFamily,
+    ImageResize,
+    TaskList,
+    TaskItem,
+    TableKit,
+    Highlight,
+  })
+
   return (
     <div className="size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:bg-white print:overflow-visible">
       <Ruler />
@@ -120,5 +117,7 @@ export const Editor = () => {
         <Threads editor={editor} />
       </div>
     </div>
-  );
-};
+  )
+}
+
+export default Editor
