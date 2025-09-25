@@ -6,7 +6,6 @@ import { Editor } from "./editor";
 import Navbar from "./navbar";
 import { useParams } from "next/navigation";
 import { Room } from "./room";
-import { RoomProvider } from "@liveblocks/react";
 
 const DocumentIdPage = () => {
   const params = useParams();
@@ -23,9 +22,9 @@ const DocumentIdPage = () => {
         <Toolbar />
       </div>
       <div className="pt-[114px] print:pt-0">
-        <RoomProvider id={documentId}>
-      <Editor />
-    </RoomProvider>
+        <Room>
+          <Editor />
+        </Room>
       </div>
     </div>
   );
