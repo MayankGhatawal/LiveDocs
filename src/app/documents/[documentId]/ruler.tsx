@@ -89,7 +89,6 @@ function Ruler() {
           onMouseDown={onLeftMouseDown}
           onDoubleClick={() => setLeftMargin(56)}
         />
-
         {/* Right marker */}
         <Marker
           position={rightMargin}
